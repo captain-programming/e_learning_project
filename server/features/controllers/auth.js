@@ -14,11 +14,9 @@ const signup = async(req, res)=>{
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = await UserModel.create({college_name, college_email, college_phone, password: hashedPassword, admin_name, admin_phone, admin_email});
 
-    const token = jwt.sign({college_email: newUser.college_email, id: newUser._id}, "secrete", {expiresIn: '1h'});
-
-    res.status(200).json({result: newUser, token});
+    res.status(200).json({message: "Account is successfully created"});
   }catch(err){
-    console.log(err);
+    // console.log(err);
     res.status(500).send("Something went wrong");
   }
 }
