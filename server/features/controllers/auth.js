@@ -12,11 +12,11 @@ const signup = async(req, res)=>{
     }
     
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await UserModel.create({college_name, college_email, college_phone, password: hashedPassword, admin_name, admin_phone, admin_email});
+    const newUser = await UserModel.create({college_name, college_email, college_phone, password: hashedPassword, admin_name, admin_phone, admin_email, role: "Admin"});
 
     res.status(200).json({message: "Account is successfully created"});
   }catch(err){
-    // console.log(err);
+    console.log(err);
     res.status(500).send("Something went wrong");
   }
 }
@@ -26,17 +26,18 @@ const login = async(req, res)=>{
   try{
     const existinguser = await UserModel.findOne({college_email});
     if(!existinguser){
-      return res.status(404).json({message: "User don't Exist."})
+      return res.status(200).json({token: null, status: "User don't Exist.", userdetails: null})
     }
 
     const isPasswordCrt = await bcrypt.compare(password, existinguser.password)
+    
     if(!isPasswordCrt){
-      return res.status(400).json({message: "Invalid credentials"})
+      return res.status(200).json({token: null, status: "Invalid credentials", userdetails: null})
     }
 
     const token = jwt.sign({email: existinguser.college_email, id: existinguser._id}, "secrete", {expiresIn: '1h'});
 
-    res.status(200).json({result: existinguser, token})
+    res.status(200).json({token: token, status: "Login Successfully", userdetails: existinguser, token})
   }catch(err){
     console.log(err);
     res.status(500).json("Something went wrong");

@@ -1,12 +1,19 @@
 import { AUTH_LOADING, AUTH_LOGIN, AUTH_LOGOUT, AUTH_SIGNUP } from "../types/auth.types";
 import * as api from "../../api";
 
-export const loginFun = (creds, navigate) => async(dispatch)=>{
+export const loginFun = (creds, navigate, toast) => async(dispatch)=>{
   dispatch({type: AUTH_LOADING});
   try{
-    let {data} = api.loginApi(creds);
+    let {data} = await api.loginApi(creds);
+    toast({
+      title: data?.status,
+      status: data?.status==="Login Successfully" ? "success": "error",
+      duration: 3000,
+      position: "top"
+    });
+    // console.log(data);
     dispatch({type: AUTH_LOGIN, payload: data});
-    navigate('/');
+    data?.status==="Login Successfully" && navigate('/');
   }catch(err){
     console.log(err);
   }

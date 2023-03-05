@@ -8,13 +8,26 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import bgImage from "../assets/Login/background-image-signup.jpg";
+import bgImage from "../assets/login/background-image-signup.jpg";
 import { HiArrowNarrowLeft } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { signupFun } from "../store/action/auth.action";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [box, setBox] = useState(1);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [accept, setAccept] = useState(false);
-  const [formDetails, setFormsDetails] = useState({});
+  const [formDetails, setFormsDetails] = useState({
+    admin_email:"",
+    admin_name: "",
+    admin_phone: "",
+    college_email: "",
+    college_name: "",
+    college_phone: "",
+    password: ""
+  });
 
   const changePage = () => {
     setBox(box + 1);
@@ -36,8 +49,8 @@ const Signup = () => {
 
   const submitForm =(e) => {
     e.preventDefault();
-
-    console.log(formDetails);
+    dispatch(signupFun(formDetails, navigate));
+    // console.log(formDetails);
   }
 
   return (
@@ -72,6 +85,7 @@ const Signup = () => {
               <Flex direction={"column"} gap={2} mt={10}>
                 <Text fontWeight={600}>Enter your College / Academy Name</Text>
                 <Input
+                  value={formDetails.college_name}
                   type={"text"}
                   placeholder="Enter college / academy name"
                   name="college_name"
@@ -80,6 +94,7 @@ const Signup = () => {
                 <Text fontWeight={600}>College / Academy Email</Text>
                 <Input
                   type={"email"}
+                  value={formDetails.college_email}
                   placeholder="Enter college / academy email"
                   name="college_email"
                   onChange={getUserValue}
@@ -87,12 +102,13 @@ const Signup = () => {
                 <Text fontWeight={600}>College / Academy Telephone</Text>
                 <Input
                   type={"number"}
+                  value={formDetails.college_phone}
                   placeholder="Enter college / academy telephone"
                   name="college_phone"
                   onChange={getUserValue}
                 />
                 <Text fontWeight={600}>Password</Text>
-                <Input type={"password"} placeholder="Enter your password" name="password" onChange={getUserValue}/>
+                <Input value={formDetails.password} type={"password"} placeholder="Enter your password" name="password" onChange={getUserValue}/>
                 <Button
                   mt={10}
                   fontSize={20}
@@ -102,15 +118,16 @@ const Signup = () => {
                 >
                   Next
                 </Button>
+                <Link to="/login"><Text cursor={"pointer"} color="blue" _hover={{textDecoration: "underline"}} textAlign={"end"} mt={3}>Already accoount login now</Text></Link>
               </Flex>
             ) : box === 2 ? (
               <Flex direction={"column"} gap={2} mt={10}>
                 <Text fontWeight={600}>Admin Name </Text>
-                <Input type={"text"} placeholder="Enter your name" name="admin_name" onChange={getUserValue}/>
+                <Input value={formDetails.admin_name} type={"text"} placeholder="Enter your name" name="admin_name" onChange={getUserValue}/>
                 <Text fontWeight={600}>Admin Mobile Number</Text>
-                <Input type={"number"} placeholder="Enter your mobile number" name="admin_phone" onChange={getUserValue}/>
+                <Input value={formDetails.admin_phone} type={"number"} placeholder="Enter your mobile number" name="admin_phone" onChange={getUserValue}/>
                 <Text fontWeight={600}>Admin Email</Text>
-                <Input type={"email"} placeholder="Enter your email" name="admin_email" onChange={getUserValue}/>
+                <Input value={formDetails.admin_email} type={"email"} placeholder="Enter your email" name="admin_email" onChange={getUserValue}/>
                 <Button
                   mt={10}
                   fontSize={20}

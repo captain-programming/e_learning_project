@@ -11,22 +11,95 @@ import Lectures from "../pages/Lectures";
 import Repos from "../pages/Repos";
 import Submissions from "../pages/Submissions";
 import Visuals from "../pages/Visuals";
+import PrivateRoute from "../context/PrivateRoute";
+import Profile from "../pages/Profile";
 
 const AllRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/lectures" element={<Lectures />} />
-        <Route path="/Assignments" element={<Assignments />} />
-        <Route path="/Submissions" element={<Submissions />} />
-        <Route path="/repos" element={<Repos />} />
-        <Route path="/visuals" element={<Visuals />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/ask_question" element={<AskQuestions />} />
+        <Route
+          path="/courses"
+          element={
+            <PrivateRoute>
+              <Courses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/lectures"
+          element={
+            <PrivateRoute>
+              <Lectures />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/Assignments"
+          element={
+            <PrivateRoute>
+              <Assignments />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/Submissions"
+          element={
+            <PrivateRoute>
+              <Submissions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/repos"
+          element={
+            <PrivateRoute>
+              <Repos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/visuals"
+          element={
+            <PrivateRoute>
+              <Visuals />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <PrivateRoute>
+              <Blog />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ask_questions"
+          element={
+            <PrivateRoute>
+              <AskQuestions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );

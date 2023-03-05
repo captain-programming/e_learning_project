@@ -1,23 +1,75 @@
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Link as ChakraLink} from "@chakra-ui/react";
 import React from "react";
 import { CgMenuGridR, } from "react-icons/cg";
 import { FaGraduationCap } from "react-icons/fa";
 import { BiBarChartSquare } from "react-icons/bi";
 import { SiBloglovin } from "react-icons/si";
-import { BsChatDots } from "react-icons/bs";
 import { AiFillGithub, AiOutlineLineChart } from "react-icons/ai";
 import { MdOutlineSlowMotionVideo, MdOutlineAssignment } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import MenuItemComponents from "./MenuItemComponents";
+
+let exploreMenuItem = [
+  {
+    icon: AiOutlineLineChart,
+    name: "Visuals",
+    path: "visuals"
+  }, 
+  {
+    icon: SiBloglovin,
+    name: "Blog",
+    path: "blogs"
+  }, 
+  {
+    icon: MdOutlineSlowMotionVideo,
+    name: "Ask Questions",
+    path: "ask_questions"
+  }
+];
+let learningMenuItem = [
+  {
+    icon: CgMenuGridR,
+    name: "Dashboard",
+    path: "",
+  }, 
+  {
+    icon: FaGraduationCap,
+    name: "Courses",
+    path: "courses",
+  }, 
+  {
+    icon: MdOutlineSlowMotionVideo,
+    name: "Lectures",
+    path: "lectures",
+  }, 
+  {
+    icon: MdOutlineAssignment,
+    name: "Assignments",
+    path: "assignments",
+  }, 
+  {
+    icon: BiBarChartSquare,
+    name: "Submissions",
+    path: "submissions"
+  }, 
+  {
+    icon: AiFillGithub,
+    name: "Repos",
+    path: "repos"
+  },
+];
 
 const Sidebar = () => {
+  let path = window.location.pathname.split("/").slice(1);
+
   return (
     <>
       <Stack
@@ -46,98 +98,11 @@ const Sidebar = () => {
             LEARNING
           </Text>
           <Flex gap={4} direction="column">
-            <NavLink to={"/"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <CgMenuGridR fontSize={"20px"} />
-                <Heading
-                  fontSize="18px"
-                  cursor={"pointer"}
-                  fontFamily={"DM Serif"}
-                >
-                  Dashboard
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/courses"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <FaGraduationCap fontSize={"20px"} />
-                <Heading
-                  fontSize="18px"
-                  cursor={"pointer"}
-                  fontFamily={"DM Serif"}
-                >
-                  Courses
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/lectures"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <MdOutlineSlowMotionVideo fontSize={"20px"} />
-                <Heading fontSize="18px" fontFamily={"DM Serif"} cursor={"pointer"} >
-                  Lectures
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/assignments"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <MdOutlineAssignment fontSize={"20px"} />
-                <Heading fontSize="18px" fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Assignments
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/submissions"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <BiBarChartSquare fontSize={"20px"} />
-                <Heading fontSize="18px" fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Submissions
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/repos"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <AiFillGithub fontSize={"20px"} />
-                <Heading fontSize="18px" fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Repos
-                </Heading>
-              </Flex>
-            </NavLink>
+             {
+              learningMenuItem?.map((menu) => (
+                <MenuItemComponents menu={menu} key={menu.name} path={path[0]}/>
+              ))
+             }
           </Flex>
 
           {/* //part2 */}
@@ -145,48 +110,9 @@ const Sidebar = () => {
             EXPLORE
           </Text>
           <Flex gap={2} direction="column">
-            <NavLink to={"/visuals"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <AiOutlineLineChart />
-                <Heading size={"sm"} fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Visuals
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/blog"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <SiBloglovin />
-                <Heading size={"sm"} fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Blog
-                </Heading>
-              </Flex>
-            </NavLink>
-            <NavLink to={"/ask_question"}>
-              <Flex
-                gap={4}
-                _hover={{ border: "1px solid rgb(107,230,225)" }}
-                borderRadius={10}
-                p={2}
-                alignItems="center"
-              >
-                <BsChatDots />
-                <Heading size={"sm"} fontFamily={"DM Serif"} cursor={"pointer"}>
-                  Ask Questions
-                </Heading>
-              </Flex>
-            </NavLink>
+            {exploreMenuItem?.map((menu)=>(
+              <MenuItemComponents menu={menu} key={menu.name} path={path[0]}/>
+            ))}
           </Flex>
         </Box>
 
@@ -202,7 +128,7 @@ const Sidebar = () => {
               <AiFillGithub fontSize={"50px"} />
             </Box>
           </Flex>
-          <Box
+          <Flex
             borderRadius={10}
             p={3}
             width="90%"
@@ -211,6 +137,7 @@ const Sidebar = () => {
             color="white"
             mb={3}
             pt={10}
+            direction="column"
           >
             <Heading
               mb={3}
@@ -221,13 +148,19 @@ const Sidebar = () => {
             >
               Interested in Contributing?
             </Heading>
-            <Button
+            <ChakraLink
+              href="https://github.com/captain-programming"
               _hover={{ border: "1px solid rgb(107,230,225)" }}
               bg={"twitter.500"}
+              alignSelf="center"
+              border={"1px solid rgb(29,161,242)"}
+              borderRadius={5}
+              p={"10px 20px 8px 20px"}
+              isExternal
             >
               WHERE ON GITHUB
-            </Button>
-          </Box>
+            </ChakraLink>
+          </Flex>
           <Flex
             gap={4}
             borderTop="1px solid rgb(225,224,225)"
@@ -235,6 +168,7 @@ const Sidebar = () => {
             pl={6}
             alignItems="center"
             position={"reletive"}
+            cursor="pointer"
           >
             <Image
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
@@ -243,9 +177,11 @@ const Sidebar = () => {
               borderRadius={"20%"}
               height="30px"
             />
-            <Heading fontSize="18px" fontFamily={"DM Serif"}>
-              Profile
-            </Heading>
+            <NavLink to="/profile">
+              <Heading fontSize="18px" fontFamily={"DM Serif"} cursor="pointer">
+                Profile
+              </Heading>
+            </NavLink>
           </Flex>
         </Box>
       </Stack>

@@ -5,7 +5,8 @@ const initalValue = {
   signup: "Something wrong",
   login: {
     token: null,
-    status: "Check Creditional details"
+    status: "Check Creditional details",
+    userdetails: null
   },
   logout: "Logout failed",
 }
