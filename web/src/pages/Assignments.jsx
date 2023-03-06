@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
-import Sidebar from '../components/Sidebar'
-import AssignmentComponent from '../components/AssignmentsComponent'
+import Sidebar from '../components/sidebar/Sidebar'
+import AssignmentComponent from '../components/assignments/AssignmentsComponent'
 
 const taskArr = [
   {

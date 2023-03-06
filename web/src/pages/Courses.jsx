@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/sidebar/Sidebar'
 
 const Courses = () => {
   return (

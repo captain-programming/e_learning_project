@@ -5,9 +5,9 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
-import Notifiaction from "../components/Notifiaction";
-import Sidebar from "../components/Sidebar";
-import TaskComponent from "../components/TaskComponent";
+import Notifiaction from "../components/dashboard/Notifiaction";
+import Sidebar from "../components/sidebar/Sidebar";
+import TaskComponent from "../components/dashboard/TaskComponent";
 
 const noticeArr = [
   {

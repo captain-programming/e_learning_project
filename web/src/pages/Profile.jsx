@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import { logoutFun } from "../store/action/auth.action";
 
 
@@ -21,7 +21,7 @@ const Profile = () => {
     dispatch(logoutFun());
   }
 
-  console.log(login?.userdetails)
+  // console.log(login?.userdetails)
 
   return (
     <>

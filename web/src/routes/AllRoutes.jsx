@@ -13,8 +13,13 @@ import Submissions from "../pages/Submissions";
 import Visuals from "../pages/Visuals";
 import PrivateRoute from "../context/PrivateRoute";
 import Profile from "../pages/Profile";
+import { useSelector } from "react-redux";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
 
 const AllRoutes = () => {
+  const {access} = useSelector((store) => store.auth);
+  console.log(access)
+
   return (
     <>
       <Routes>
@@ -22,7 +27,7 @@ const AllRoutes = () => {
           path="/"
           element={
             <PrivateRoute>
-              <Dashboard />
+              {access==="Super Admin" ? <AdminDashboard /> : <Dashboard />}
             </PrivateRoute>
           }
         />

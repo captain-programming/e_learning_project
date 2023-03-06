@@ -12,7 +12,7 @@ const signup = async(req, res)=>{
     }
     
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await UserModel.create({college_name, college_email, college_phone, password: hashedPassword, admin_name, admin_phone, admin_email, role: "Admin"});
+    const newUser = await UserModel.create({college_name, college_email, college_phone, password: hashedPassword, admin_name, admin_phone, admin_email, role: "Super Admin"});
 
     res.status(200).json({message: "Account is successfully created"});
   }catch(err){
