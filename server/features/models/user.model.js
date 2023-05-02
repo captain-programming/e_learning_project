@@ -1,16 +1,15 @@
 const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema({
-  college_name: {type: String, required: true},
-  college_email: {type: String, required: true},
-  college_phone: {type: String, required: true},
+  email: {type: String, required: true, unique: false},
+  username: {type: String, required: true, unique: false},
   password: {type: String, required: true},
-  admin_name: {type: String, required: true},
-  admin_phone: {type: String, required: true},
-  admin_email: {type: String, required: true, unique: false},
-  role: {type: String, required: true},
-  
-
+  name: {type: String, required: true},
+  mobile_no: {type: String, required: true},
+  role: {type: String, required: true, default: "Super Admin"},
+  college_code: {type: String, required: true},
+  verify: {type: Boolean, required: true},
+  otp: {type: String}
 })
 
 const UserModel = model('users', UserSchema);
