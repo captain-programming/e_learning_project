@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const sendMail = (text, email) => {
+const sendMail = (text, email, subject) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -12,7 +12,7 @@ const sendMail = (text, email) => {
   const mailOptions = {
     from: 'dkgroupofcompany363@gmail.com',
     to: email,
-    subject: 'Confirm your email address',
+    subject: subject,
     html: text,
   };
 

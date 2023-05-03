@@ -49,7 +49,8 @@ const signup = async (req, res, next) => {
                       <p><b>Email: ${email}</b></p>
                       <p><b>Username: ${username}</b></p>
                     `
-    await sendMail(emailText, email);
+    const subject = "Confirm your email address"
+    await sendMail(emailText, email, subject);
 
     //save data in database
     const newUser = await UserModel.create({
@@ -88,7 +89,6 @@ const adminCreateUserAccount = async (req, res, next) => {
     } while (await UserModel.findOne({ username: username }));
 
     const password = generatePassword(12);
-
     const hashedPassword = await bcrypt.hash(password, 12);
 
     //email send process
@@ -100,7 +100,8 @@ const adminCreateUserAccount = async (req, res, next) => {
                       <p><b>Username: ${username}</b></p>
                       <p><b>Password: ${password}</b></p>
                     `
-    await sendMail(emailText, email);
+    const subject = "User login details"
+    await sendMail(emailText, email, subject);
 
     //save data in database
     const newUser = await UserModel.create({

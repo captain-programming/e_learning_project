@@ -9,7 +9,8 @@ const UserSchema = new Schema({
   role: {type: String, required: true, default: "Super Admin"},
   college_code: {type: String, required: true},
   verify: {type: Boolean, required: true},
-  otp: {type: String}
+  otp: {type: String},
+  primary: {type: Boolean, required: true, default: true}
 })
 
 const UserModel = model('users', UserSchema);
