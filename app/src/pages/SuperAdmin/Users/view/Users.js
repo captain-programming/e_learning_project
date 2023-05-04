@@ -1,23 +1,34 @@
-import { View, Text, Modal, StyleSheet, Pressable, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
-import React, { useState } from 'react'
+import { View, Modal, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Style } from '../style/users'
 import ButtonComponent from '../../../../component/helping/ButtonComponent'
 import UserAddForm from '../../../../component/User/UserAddForm'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllUser } from '../../../../store/Auth/action'
+import UserDisplayTable from '../../../../component/User/UserDisplayTable'
 
 const Users = () => {
   const [openForm, setOpenForm] = useState(false);
+  const dispatch = useDispatch();
+  const {userDetails, user} = useSelector((store) => store.authuntication);
 
   const handleAddUser = () =>{
     setOpenForm(true);
   }
-
   const closeForm = () => setOpenForm(false);
 
+  useEffect(()=>{
+    dispatch(getAllUser({role: userDetails?.role, collegeCode: userDetails?.college_code}))
+  }, [])
+  
   return (
     <>
       <View style={Style.main}>
         <View style={Style.buttonBox}>
           <ButtonComponent onPress={handleAddUser} bg="#fb2b55" color={"white"} title={"Add Student"} fontWeight={'bold'} />
+        </View>
+        <View>
+          <UserDisplayTable data={user}/>
         </View>
       </View>
 

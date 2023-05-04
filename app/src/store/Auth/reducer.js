@@ -1,4 +1,4 @@
-import { AUTH_USER_EMAIL_VERIFY, AUTH_USER_LOGIN, AUTH_USER_LOGOUT, AUTH_USER_SIGNUP, CREATE_ACCOUNT_ADMIN, ERROR, LOADING, TOAST_CLEANER } from "./types";
+import { AUTH_USER_EMAIL_VERIFY, AUTH_USER_LOGIN, AUTH_USER_LOGOUT, AUTH_USER_SIGNUP, CREATE_ACCOUNT_ADMIN, DELETE_USER_ACCOUNT, EDIT_USER_ACCOUNT, ERROR, GET_ALL_USER, LOADING, TOAST_CLEANER } from "./types";
 
 const initial = {
   login: false,
@@ -8,7 +8,8 @@ const initial = {
   loading: false,
   toastMessage: "",
   toastActivate: false,
-  toastStatus: "error"
+  toastStatus: "error",
+  user: []
 }
 
 export const AuthReducer = (state=initial, {type, payload})=>{
@@ -21,6 +22,9 @@ export const AuthReducer = (state=initial, {type, payload})=>{
     case AUTH_USER_EMAIL_VERIFY : return { ...state, loading: false, toastMessage: payload, toastActivate: true, toastStatus: "success"}
     case TOAST_CLEANER : return {...state, toastMessage: "", toastActivate: false, toastStatus: "error"}
     case AUTH_USER_LOGOUT: return {...state, toastMessage: "Successfully logout", toastActivate: true, token: "", login: false, userDetails: "", toastStatus: "success"}
+    case GET_ALL_USER: return {...state, user: payload, toastActivate: false}
+    case DELETE_USER_ACCOUNT: return {...state, toastActivate: true, toastMessage: payload, toastStatus: "success"}
+    case EDIT_USER_ACCOUNT: return {...state, toastActivate: true, toastMessage: payload, toastStatus: "success"}
     default: return state;
   }
 }

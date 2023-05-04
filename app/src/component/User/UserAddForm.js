@@ -51,7 +51,7 @@ const UserAddForm = ({closeForm}) => {
 
   const handleAddMember = () => {
     if(validate(formData)){
-      dispatch(adminCreateUser({...formData, role: selectedRole, collegeCode: userDetails?.college_code}, {setFormData}));
+      dispatch(adminCreateUser({...formData, role: selectedRole, collegeCode: userDetails?.college_code}, {setFormData}, userDetails));
       // closeForm();
     }
   }
@@ -95,6 +95,7 @@ const UserAddForm = ({closeForm}) => {
         save="value"
         placeholder='Select role'
         boxStyles={{borderBottomWidth: 1, borderWidth: 0, borderRadius: 0, borderColor:"#e3e1e1"}}
+        search={false}
       />
       {errors.role && 
         <Text style={{color: 'red', fontSize: 10, marginTop: -7}}>{errors.role}</Text>
