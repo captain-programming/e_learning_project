@@ -1,4 +1,4 @@
-const UserModel =  require("../models/user.model");
+const UserModel =  require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { sendMail } = require("./sendMail");
@@ -73,12 +73,18 @@ const signup = async (req, res, next) => {
 
 //create student account
 const adminCreateUserAccount = async (req, res, next) => {
-  const { email, mobile_no, name, role, collegeCode} = req.body;
+  const { email, mobile_no, name, role, collegeCode, branch} = req.body;
   
   try {
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       throw new Error("User already exists.");
+    }
+
+    if (role!=="Super Admin"){
+      if(!branch){
+        throw new Error("Branch is required");
+      }
     }
 
     //Generate a random username
@@ -112,7 +118,8 @@ const adminCreateUserAccount = async (req, res, next) => {
       username: username,
       college_code:  collegeCode,
       verify: false,
-      role: role
+      role: role,
+      branch
     });
 
     return res.status(200).json("Account is successfully created");
@@ -128,6 +135,9 @@ const login = async(req, res, next)=>{
     const existingUser = await UserModel.findOne({email});
     if(!existingUser){
       throw new Error("User don't Exist.");
+    }
+    if(!existingUser.verify){
+      return res.status(200).json("Verify User");
     }
     const isPasswordCrt = await bcrypt.compare(password, existingUser.password)
     if(!isPasswordCrt){
@@ -163,4 +173,53 @@ const verifyOtp = async(req, res, next) =>{
   }
 }
 
-module.exports = {signup, login, verifyOtp, adminCreateUserAccount}
+const sendOtp = async(req, res, next) =>{
+  const {email} = req.body;
+
+  try{
+    const existingUser = await UserModel.findOne({email});
+    if(!existingUser){
+      throw new Error("User don't Exist.");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const emailText = `
+                      <p>Hello ${existingUser?.name},</p>
+                      <p>Welcome to email verification processs:</p>
+                      <p>One time password <b>${otp}</b></p>
+                      <p>If you did not register on our app, please ignore this email.</p>
+
+                      <p><b>Email: ${existingUser?.email}</b></p>
+                      <p><b>Username: ${existingUser?.username}</b></p>
+                    `
+    const subject = "Verify email address"
+    await sendMail(emailText, email, subject);
+
+    //save data in database
+    const updateUser = await UserModel.findByIdAndUpdate(existingUser._id, {otp: otp});
+    return res.status(200).json("Otp send successfully");
+  }catch(err){
+    return next(err);
+  }
+}
+
+const updatePassword = async(req, res, next) =>{
+  const {email, password} = req.body;
+
+  try{
+    const existingUser = await UserModel.findOne({email});
+    if(!existingUser){
+      throw new Error("User don't Exist.");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    //save data in database
+    const updateUser = await UserModel.findByIdAndUpdate(existingUser._id, {password: hashedPassword});
+    return res.status(200).json("Password Reset successfully");
+  }catch(err){
+    return next(err);
+  }
+}
+
+module.exports = {signup, login, verifyOtp, adminCreateUserAccount, sendOtp, updatePassword}

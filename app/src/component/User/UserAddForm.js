@@ -1,19 +1,31 @@
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SelectList } from 'react-native-dropdown-select-list';
 import InputHelper from '../helping/InputHelper';
 import ButtonComponent from '../helping/ButtonComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminCreateUser } from '../../store/Auth/action';
+import { getAllBranchAction } from '../../store/branch/action';
 
 const UserAddForm = ({closeForm}) => {
-  const {userDetails, loading} = useSelector((store) => store.authuntication);
+  const {userDetails} = useSelector((store) => store.authuntication);
   const [formData, setFormData] = useState({name: "", email: "", mobile_no: ""});
   const [errors, setErrors] = useState({});
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedBranch, setSelecteBranch] = useState("");
   const dispatch = useDispatch();
+  const {branches} = useSelector((store) => store.branch);
 
-  const data = [
+  let allBranches = branches.map((item, i) => {
+    return {key: i+1, value: item.branch_name};
+  })
+
+  const data = userDetails?.role==="Admin" ? [
+    {key:'1', value:'Admin'},
+    {key:'2', value:'Instructor'},
+    {key:'3', value:'Student'},
+  ] :
+  [
     {key:'1', value:'Super Admin'},
     {key:'2', value:'Admin'},
     {key:'3', value:'Instructor'},
@@ -41,6 +53,7 @@ const UserAddForm = ({closeForm}) => {
                 ? "Invalid Contact Number." : "";
     }
     temp.role = ( selectedRole?.trim() === "") ? "User access is required" : "";
+    temp.branch = userDetails?.role !== "Admin" && (selectedBranch?.trim() === "" && selectedRole!=="Super Admin") ? "Branch is required" : "";
 
     setErrors({
         ...temp,
@@ -51,10 +64,14 @@ const UserAddForm = ({closeForm}) => {
 
   const handleAddMember = () => {
     if(validate(formData)){
-      dispatch(adminCreateUser({...formData, role: selectedRole, collegeCode: userDetails?.college_code}, {setFormData}, userDetails));
+      dispatch(adminCreateUser({...formData, role: selectedRole, collegeCode: userDetails?.college_code, branch: userDetails?.role==="Admin" ? userDetails?.branch : selectedBranch}, {setFormData}, userDetails));
       // closeForm();
     }
   }
+
+  useEffect(()=>{
+    dispatch(getAllBranchAction({college_code: userDetails?.college_code}))
+  }, [])
 
   return (
     <ScrollView style={{width: "100%"}}>
@@ -99,6 +116,24 @@ const UserAddForm = ({closeForm}) => {
       />
       {errors.role && 
         <Text style={{color: 'red', fontSize: 10, marginTop: -7}}>{errors.role}</Text>
+      }
+      {
+        userDetails?.role==="Super Admin" &&
+        (
+          <View>
+            <SelectList 
+              setSelected={(val) => setSelecteBranch(val)} 
+              data={allBranches} 
+              save="value"
+              placeholder='Select Branch'
+              boxStyles={{borderBottomWidth: 1, borderWidth: 0, borderRadius: 0, borderColor:"#e3e1e1"}}
+              search={false}
+            />
+            {errors.branch && 
+              <Text style={{color: 'red', fontSize: 10, marginTop: -7}}>{errors.branch}</Text>
+            }
+          </View>
+        )
       }
       <View style={styles.button}>
         <ButtonComponent bg="#276ef2" color={"white"} title={"Add Member"} onPress={handleAddMember} />

@@ -43,6 +43,14 @@ const CustomDrawer = (props) => {
             }}>
             {userDetails?.name}
           </Text>
+          <Text
+            style={{
+              color: '#fff',
+              fontSize: 14,
+              marginBottom: 5,
+            }}>
+            {userDetails?.role}
+          </Text>
         </ImageBackground>
         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
           <DrawerItemList {...props} />

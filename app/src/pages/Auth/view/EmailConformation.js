@@ -1,23 +1,54 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ButtonComponent from '../../../component/helping/ButtonComponent';
 import { useDispatch } from 'react-redux';
-import { verifyUserAccount } from '../../../store/Auth/action';
+import { sendOtpAction, verifyUserAccount } from '../../../store/Auth/action';
 
 const EmailConformation = ({navigation, route}) => {
-  const {email} = route.params;
+  const {email, page} = route.params;
   const [otp, setOtp] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [time, setTime] = useState(59)
   const dispatch = useDispatch();
 
   const handleOtpChange = (value) => {
     setOtp(value.replace(/[^0-9]/g, ''));
   };
 
-  const loginFun=()=> navigation.navigate("Login")
+  const loginFun=()=> {
+    if(page==="forgot-password"){
+      navigation.navigate("Reset Password", {email})
+    }else if(page==="verify-email"){
+      navigation.navigate("Login");
+    }else{
+      navigation.navigate("Login");
+    }
+  }
 
   const verifyOtpFun = () => {
     dispatch(verifyUserAccount({otp, email}, loginFun))
   }
+
+  const resendOtp = () => {
+    dispatch(sendOtpAction(email));
+    setTime(59);
+    setIsDisabled(true);
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(()=>{
+      setTime((prev)=> prev-1);
+    }, 1000)
+
+    if(time===0){
+      clearTimeout(timer);
+      setIsDisabled(false);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [time])
 
   return (
     <View style={styles.main}>
@@ -33,6 +64,9 @@ const EmailConformation = ({navigation, route}) => {
             maxLength={6}
           />
         </View>
+        <TouchableOpacity onPress={resendOtp} disabled={isDisabled}>
+          <Text style={{color: isDisabled ? "gray" : "#3577f2", textAlign: "center", marginBottom: 10, fontSize: 16}}>Resend OTP {isDisabled && `: ${String(time).length===1 ? `00:0${time}` : `00:${time}`}`}</Text>
+        </TouchableOpacity>
         <ButtonComponent title={"Verify OTP"} bg={"red"} color={"white"} fontWeight={"bold"} onPress={verifyOtpFun}/>
       </View>
     </View>

@@ -18,10 +18,10 @@ const sendMail = (text, email, subject) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error(error);
+      // console.error(error);
       return res.status(500).send('Error sending confirmation email');
     } else {
-      console.log(`Confirmation email sent to ${email}: ${info.response}`);
+      // console.log(`Confirmation email sent to ${email}: ${info.response}`);
     }
   });
 }

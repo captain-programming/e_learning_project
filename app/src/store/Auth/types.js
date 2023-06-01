@@ -1,8 +1,9 @@
 export const AUTH_USER_LOGIN = "auth/user/login";
 export const AUTH_USER_LOGOUT = "auth/user/logout";
 export const AUTH_USER_SIGNUP = "auth/user/signin";
-export const AUTH_USER_FORGOT_PASSWORD = "auth/user/forgot/password";
 export const AUTH_USER_EMAIL_VERIFY = "auth/user/email/verify";
+export const AUTH_USER_SEND_OTP = "auth/user/send/otp";
+export const AUTH_USER_UPDATE_PASSWORD = "auth/user/update/password";
 export const GET_ALL_USER = "user/all/get";
 export const LOADING = "loading";
 export const ERROR = "error";

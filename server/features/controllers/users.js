@@ -1,7 +1,7 @@
-const UserModel = require("../models/user.model");
+const UserModel = require("../models/user");
 
 const usersList = async(req, res, next) => {
-  const {role, collegeCode} = req.body;
+  const {role, collegeCode, branch} = req.body;
   try{
     if(role==="Super Admin"){
       let list = await UserModel.find({college_code: collegeCode})
@@ -9,7 +9,7 @@ const usersList = async(req, res, next) => {
     }
 
     if(role==="Admin"){
-      let list = await UserModel.find({collegeCode, role: { $in: ['Admin', 'Instructor', 'Student'] }})
+      let list = await UserModel.find({collegeCode, branch, role: { $in: ['Admin', 'Instructor', 'Student'] }})
       return res.status(200).json(list);
     }
     return res.status(200).json("No access");
@@ -56,7 +56,7 @@ const editUserAccount = async (req, res, next) => {
       throw new Error('Cannot change access primary admin');
     }
 
-    const deleteUser = await UserModel.findByIdAndUpdate(_id, {name, mobile_no, role});
+    const updateUser = await UserModel.findByIdAndUpdate(_id, {name, mobile_no, role});
     return res.status(200).json('Successfully updated');
   } catch (err) {
     return next(err);

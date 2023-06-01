@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Style } from '../style/login';
 import loginImg from "../../../assets/login/login.png";
 import ButtonComponent from '../../../component/helping/ButtonComponent';
@@ -35,10 +35,11 @@ const Login = ({navigation}) => {
 
   const loginFun = () => {
     if(validate(formData)){
-      dispatch(userLogin(formData));
+      dispatch(userLogin(formData, verifyUser));
       setFormData({email: "", password: ""});
     }
   };
+  const verifyUser = () => navigation.navigate("Email Verification", {email: formData?.email, page: "verify-email"});
   const registerAccount = () => navigation.navigate("Register");
 
   return (
@@ -73,7 +74,9 @@ const Login = ({navigation}) => {
             helperText: errors.password,
           })}
         />
-        <Text style={Style.forgotPassword}>Forgot Password?</Text>
+        <TouchableWithoutFeedback onPress={()=> navigation.navigate("Forgot Password")}>
+          <Text style={Style.forgotPassword}>Forgot Password?</Text>
+        </TouchableWithoutFeedback>
         <View style={Style.button}>
           <ButtonComponent bg="#276ef2" color={"white"} title={"Login"} onPress={loginFun}/>
           <Text style={Style.optionLabel}>OR</Text>

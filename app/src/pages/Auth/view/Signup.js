@@ -58,7 +58,7 @@ const Signup = ({navigation}) => {
     }
   }
 
-  const verifyEmail=()=> navigation.navigate("Email Verification", {email: formData?.email})
+  const verifyEmail=()=> navigation.navigate("Email Verification", {email: formData?.email, page: "signup"})
   const loginFun=()=> navigation.navigate("Login")
 
   useEffect(() => {

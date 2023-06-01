@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 
 export const Style = StyleSheet.create({
   main: {
-    margin: 10,
     flex: 1,
-    padding: 20,
+    padding: 30,
+    backgroundColor: "#fff"
   },
   imageBox:{
     flex: 2,
