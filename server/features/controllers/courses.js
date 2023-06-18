@@ -18,9 +18,9 @@ const allCourse = async(req, res, next) => {
     const {college_code, branch} = req.headers;
     console.log(branch);
     let temp = `${branch} `
+    console.log(temp)
     if(branch){
       const course = await CourseModel.find({college_code, temp});
-      console.log(course)
       return res.status(200).json(course);
     }else{
       const course = await CourseModel.find({college_code});

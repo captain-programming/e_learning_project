@@ -60,7 +60,7 @@ export default function DrawerNavigator() {
 
   const studentMenu = [
     // {route: "Dashboard", component: StudentDashboard, icon: "home-sharp"}, 
-    // {route: "Courses", component: StudentCourses, icon: "book-sharp"}, 
+    {route: "Courses", component: StudentCourses, icon: "book-sharp"}, 
     {route: "Lectures", component: StudentLectures, icon: "videocam-sharp"}, 
     {route: "Assignments", component: StudentAssignments, icon: "code-working-sharp"}, 
     // {route: "Submission", component: StudentSubmission, icon: "git-network-sharp"}, 

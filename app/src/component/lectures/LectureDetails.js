@@ -25,7 +25,7 @@ const LectureDetails = ({route, navigation}) => {
   }
 
   const handleZoomLink = () => {
-    console.log(isTimeRemainingLessThan10Minutes())
+    // console.log(isTimeRemainingLessThan10Minutes())
     // if(!isTimeRemainingLessThan10Minutes()){
     //   return Toast.show({
     //     type: "error",

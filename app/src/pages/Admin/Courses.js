@@ -31,7 +31,6 @@ const Courses = () => {
     dispatch(getAllCourseAction({college_code: userDetails?.college_code, branch: userDetails?.branch}))
   }, [toastActive, toastMessage, toastStatus])
 
-  console.log(course);
   
   return (
     <>
