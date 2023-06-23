@@ -18,3 +18,5 @@ make android emulator to using metro
 
 cd android
 ./gradlew assembleDebug
+
+Images
